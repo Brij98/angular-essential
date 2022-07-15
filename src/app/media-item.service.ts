@@ -1,70 +1,45 @@
 import { Injectable } from '@angular/core';
 import { MediaItem } from './media-item';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { catchError, map } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MediaItemService {
 
-  mediaItems: MediaItem[] = [
-    {
-      id: 1,
-      name: 'Firebug',
-      medium: 'Series',
-      category: 'Science Fiction',
-      year: 2010,
-      watchedOn: 1294166565384,
-      isFavorite: false
-    },
-    {
-      id: 2,
-      name: 'The Small Tall',
-      medium: 'Movies',
-      category: 'Comedy',
-      year: 2015,
-      watchedOn: 0,
-      isFavorite: true
-    }, {
-      id: 3,
-      name: 'The Redemption',
-      medium: 'Movies',
-      category: 'Action',
-      year: 2016,
-      watchedOn: 0,
-      isFavorite: false
-    }, {
-      id: 4,
-      name: 'Hoopers',
-      medium: 'Series',
-      category: 'Drama',
-      year: 0,
-      watchedOn: 0,
-      isFavorite: true
-    }, {
-      id: 5,
-      name: 'Happy Joe: Cheery Road',
-      medium: 'Movies',
-      category: 'Action',
-      year: 2015,
-      watchedOn: 1457166565384,
-      isFavorite: false
-    }
-  ];
 
-  constructor() { }
+  constructor(private http: HttpClient) {  }
 
-  get(){
-    return this.mediaItems;
+  get(medium){
+    const getOptions = {
+      params: { medium }
+    };
+    return this.http.get<MediaItemsResponse>('mediaitems', getOptions)
+      .pipe(
+        map((response: MediaItemsResponse) => { return response.mediaItems; }), 
+        catchError(this.handleError)
+        );
   }
 
   add(mediaItem: MediaItem){
-    this.mediaItems.push(mediaItem);
+    return this.http.post('mediaitems', mediaItem)
+    .pipe(catchError(this.handleError));
   }
 
   delete(mediaItem: MediaItem){
-    const index = this.mediaItems.indexOf(mediaItem);
-    if(index >= 0){
-      this.mediaItems.splice(index, 1);
-    }
+    return this.http.delete(`mediaitems/${mediaItem.id}`)
+      .pipe(catchError(this.handleError));
   }
+
+  private handleError(error: HttpErrorResponse) {
+    console.log(error.message);
+    return throwError("error occured try again");
+  }
+
+}
+
+interface MediaItemsResponse{
+  mediaItems: MediaItem[];
 }
