@@ -6,14 +6,14 @@ import { MediaItem } from './media-item';
 })
 export class CategoryListPipe implements PipeTransform {
 
-  transform(mediaItems: MediaItem[]): unknown {
-    const categories: string[] = [];
+  transform(mediaItems) {
+    const categories = [];
     mediaItems.forEach(mediaItem => {
-    if (categories.indexOf(mediaItem.category) <= -1) {
-      categories.push(mediaItem.category);
-    }
+      if (categories.indexOf(mediaItem.category) <= -1) {
+        categories.push(mediaItem.category);
+      }
     });
-    return categories.join(', ');
+    return categories;
   }
 
 }

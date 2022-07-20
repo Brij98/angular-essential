@@ -13,6 +13,7 @@ import { HttpClientModule, HttpXhrBackend } from '@angular/common/http'
 import { MockXHRBackend } from './mock-xhr-backend';
 import { routing } from './app-routing/app-routing.module';
 import { NewItemModule } from './new-item/new-item.module';
+import { CategoryListComponent } from './category-list/category-list.component';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { NewItemModule } from './new-item/new-item.module';
     MediaItemListComponent,
     FavoriteDirective,
     CategoryListPipe,
+    CategoryListComponent,
     // MediaItemFormComponent
   ],
   imports: [

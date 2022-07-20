@@ -2,7 +2,7 @@
 <ng-template [ngIf]="mediaItem.watchedOn > 0">
   <div >{{ mediaItem.watchedOn | date : 'shortDate' }}</div>
 </ng-template>
-<div>{{ mediaItem.category }}</div>
+<div class="label">{{ mediaItem.category }}</div>
 <div>{{ mediaItem.year }}</div>
 <div class="tools">
   <svg [appFavorite]="mediaItem.isFavorite" class="favorite" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
